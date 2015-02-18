@@ -23,8 +23,8 @@ describe Video do
     end
     it "returns an array of all matches ordered by created_at" do
       futurama = Video.create(title: "futurama", description: "space travel", created_at: 1.day.ago)
-      back_to_future = Video.create(title: "Back to the future", description: "Sci Fi")
-      expect(Video.search_by_title("futur")).to eq([futurama, back_to_future])
+      back_to_future = Video.create(title: "back to the future", description: "Sci Fi")
+      expect(Video.search_by_title("futur")).to eq([back_to_future, futurama])
     end
   end
     
