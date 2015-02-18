@@ -7,9 +7,15 @@ Myflix::Application.routes.draw do
   get '/videos/:id', to: 'videos#show', as: 'video'
   
   resources :videos, only: [:show] do
+    collection do
+      get 'search', to: 'videos#search'
+    end
+    
+    member do
+      post 'highlight', to: 'videos#highlight'
+    end
   end
   
   resources :categories, only:[:show] do
   end
-  
 end
