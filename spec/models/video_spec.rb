@@ -12,8 +12,9 @@ describe Video do
       expect(Video.search_by_title("hello")).to eq([])
     end
     it "returns an array of one video for an exact match" do
-      futurama = Video.create(title: "Futurama", description: "space travel")
-      back_to_future = Video.create(title: "Back to the future", description: "Sci Fi")
+      comedies = Category.create(id: 1, name: "comedies")
+      futurama = Video.create(title: "Futurama", description: "space travel", category_id: 1)
+      back_to_future = Video.create(title: "Back to the future", description: "Sci Fi", category_id: 1)
       expect(Video.search_by_title("Futurama")).to eq([futurama])
     end
     it "returns an array of one video for a partial match" do
