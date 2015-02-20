@@ -8,7 +8,7 @@ Myflix::Application.routes.draw do
   
   resources :videos, only: [:show] do
     collection do
-      post 'search', to: 'videos#search' #better to use get per tea leaf
+      post :search, to: "videos#search"
   end
     
     member do
