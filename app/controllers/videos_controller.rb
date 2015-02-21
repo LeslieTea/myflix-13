@@ -12,4 +12,4 @@ class VideosController < ApplicationController
     @results = Video.search_by_title(params[:search_term])
   end
   
-end 
+end
