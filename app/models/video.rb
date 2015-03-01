@@ -1,7 +1,7 @@
 class Video < ActiveRecord::Base
- belongs_to :category
-
-	validates_presence_of :title, :description
+  belongs_to :category
+  has_many :reviews
+  validates_presence_of :title, :description
   
   def display_text
     title

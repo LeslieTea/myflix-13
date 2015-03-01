@@ -10,7 +10,7 @@ Category.create(name: "drama")
 Category.create(name: "comedy")
 Category.create(name: "Reality TV")
 
-Video.create(title: "Monk", 
+monk = Video.create(title: "Monk", 
 	description: "my description of Monk",
 	small_cover_url: "/tmp/monk.jpg",
 	large_cover_url: "/tmp/monk.jpg",
@@ -30,3 +30,8 @@ Video.create(title: "South Park",
 	small_cover_url: "/tmp/south_park.jpg",
 	large_cover_url: "/tmp/south_park.jpg",
 	category_id: 2)
+
+leslie = User.create(full_name: "Leslie Turner", password: "password", email: "kevin@example.com")
+
+Review.create(user: leslie, video: monk, rating: 5, content: "Awesome movie")
+Review.create(user: leslie, video: monk, rating: 2, content: "decent movie")
