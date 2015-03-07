@@ -1,7 +1,7 @@
 Myflix::Application.routes.draw do
   root to: 'pages#front'
   
-  
+  get 'my_queue', to: 'queue_items#index'
   get 'register', to: 'users#new'
   get 'sign_in', to: 'sessions#new'
   post 'sign_in', to: 'sessions#create'
