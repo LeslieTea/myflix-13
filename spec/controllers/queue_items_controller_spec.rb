@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe QueueItemsController do
   describe "GET index" do
+    
     it "sets @queue_items to the queue items of the logged in user" do
       leslie = Fabricate(:user)
       set_current_user(leslie)

@@ -12,6 +12,10 @@ class CategoriesController < ApplicationController
     @category = Category.find(params[:id])
   end
   
-
+  private
   
+  def category_param
+    params[:category][:name] ||= []
+    params.permit(:category).permit(:category, name: [])
+  end
 end 
