@@ -8,8 +8,8 @@
           %h3= @video.title
         %p= @video.description
         .action 
-          = link_to "+ My Queue", queue_items_path(video_id: @video.id), method: :post, class: 'btn'
-        
+          = link_to "+ My Queue", queue_items_path(video_id: @video.id), method: :post, class: 'btn' unless current_user.queued_video?(@video) 
+          %a.btn.btn-primary(href="") Watch Now
 %section.reviews.container
   .row
     .span10.offset1

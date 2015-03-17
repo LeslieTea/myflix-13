@@ -1,0 +1,14 @@
+
+[1mFrom:[0m /home/action/workspace/myflix/spec/features/user_interacts_with_queue_spec.rb @ line 12 :
+
+     [1;34m7[0m:     monk        = Fabricate([33m:video[0m, [35mtitle[0m: [31m[1;31m'[0m[31mmonk[1;31m'[0m[31m[0m, [35mcategory[0m: category)
+     [1;34m8[0m:     futurama    = Fabricate([33m:video[0m, [35mtitle[0m: [31m[1;31m'[0m[31mfuturama[1;31m'[0m[31m[0m, [35mcategory[0m: category)
+     [1;34m9[0m:     south_park  = Fabricate([33m:video[0m, [35mtitle[0m: [31m[1;31m'[0m[31msouth park[1;31m'[0m[31m[0m, [35mcategory[0m: category)
+    [1;34m10[0m:         
+    [1;34m11[0m:     sign_in
+ => [1;34m12[0m:     require [31m[1;31m'[0m[31mpry[1;31m'[0m[31m[0m; binding.pry
+    [1;34m13[0m:     find([31m[1;31m"[0m[31ma[href='/video/monk#{monk.id}[0m[31m'][1;31m"[0m[31m[0m).click
+    [1;34m14[0m:     page.should have_content(monk.title)
+    [1;34m15[0m:   [32mend[0m
+    [1;34m16[0m: [32mend[0m
+
