@@ -25,15 +25,24 @@ feature "User interacts with the queue" do
     find("a[href='/videos/#{futurama.id}']").click
     click_link "+ My Queue"
     
-    fill_in "video_#{monk.id}", with: 3
-    fill_in "video_#{south_park.id}", with: 1
-    fill_in "video_#{futurama.id}", with: 2
+    within(:xpath, "/tr[contains.,'#{monk.title}')]") do
+      fill_in "queue_items[][position]", with: 3
+    end
     
+    within(:xpath, "/tr[contains.,'#{south_park.title}')]") do
+      fill_in "queue_items[][position]", with: 1
+    end
+    
+    within(:xpath, "/tr[contains.,'#{futurama.title}')]") do
+      fill_in "queue_items[][position]", with: 2
+    end
+        
     click_button "Update Instant Queue"
     
-    expect(find("#video_#{south_park.id}").value).to eq("1")
-    expect(find("#video_#{futurama.id}").value).to eq("2")
-    expect(find("#video_#{monk.id}").value).to eq("3")
     
+    expect(find(:xpath, "/tr[contains(.,'#{south_park.title}')]//input[@type='text']").value).to eq("1")
+    expect(find(:xpath, "/tr[contains(.,'#{futurama.title}')]//input[@type='text']").value).to eq("2")
+    expect(find(:xpath, "/tr[contains(.,'#{monk.title}')]//input[@type='text']").value).to eq("3")
+        
   end
 end
