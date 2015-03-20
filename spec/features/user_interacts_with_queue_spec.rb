@@ -3,46 +3,59 @@ require 'spec_helper'
 feature "User interacts with the queue" do
   scenario "user adds and reorders videos in the queue" do
     
-    category    = Fabricate(:category)
-    monk        = Fabricate(:video, title: 'monk', category: category)
-    futurama    = Fabricate(:video, title: 'futurama', category: category)
-    south_park  = Fabricate(:video, title: 'south park', category: category)
-        
+    comedies    = Fabricate(:category)
+    monk        = Fabricate(:video, title: "Monk", category: comedies)
+    south_park  = Fabricate(:video, title: "South Park", category: comedies)
+    futurama    = Fabricate(:video, title: "Futurama", category: comedies)
+    
     sign_in
-    find("a[href='/videos/#{monk.id}']").click
-    page.should have_content(monk.title)
     
-    click_link "+ My Queue"
-    page.should have_content(monk.title)
-    
+    add_video_to_queue(monk)
+    expect_video_to_be_in_queue(monk)
+        
     visit video_path(monk)
-    page.should_not have_content "+ My Queue"
-    
-    visit home_path
-    find("a[href='/videos/#{south_park.id}']").click
-    click_link "+ My Queue"
-    visit home_path
-    find("a[href='/videos/#{futurama.id}']").click
-    click_link "+ My Queue"
-    
-    within(:xpath, "/tr[contains.,'#{monk.title}')]") do
-      fill_in "queue_items[][position]", with: 3
-    end
-    
-    within(:xpath, "/tr[contains.,'#{south_park.title}')]") do
-      fill_in "queue_items[][position]", with: 1
-    end
-    
-    within(:xpath, "/tr[contains.,'#{futurama.title}')]") do
-      fill_in "queue_items[][position]", with: 2
-    end
+    expect_link_not_to_be_seen("+ My Queue")
         
-    click_button "Update Instant Queue"
+    add_video_to_queue(futurama)
+    add_video_to_queue(south_park)
+
+    set_video_order(monk, 3)
+    set_video_order(futurama, 1)
+    set_video_order(south_park, 2)
+
+    update_queue
     
-    
-    expect(find(:xpath, "/tr[contains(.,'#{south_park.title}')]//input[@type='text']").value).to eq("1")
-    expect(find(:xpath, "/tr[contains(.,'#{futurama.title}')]//input[@type='text']").value).to eq("2")
-    expect(find(:xpath, "/tr[contains(.,'#{monk.title}')]//input[@type='text']").value).to eq("3")
-        
+    expect_video_order(monk, 3)
+    expect_video_order(futurama, 1)
+    expect_video_order(south_park, 2)
   end
+
+def expect_video_to_be_in_queue(video)
+  page.should have_content(video.title)
+end
+
+def expect_link_not_to_be_seen(link_text)
+  page.should_not have_content(link_text)
+end
+
+def update_queue
+  click_button "Update Instant Queue"
+end
+
+def add_video_to_queue(video)
+  visit home_path
+  find("a[href='/videos/#{video.id}']").click
+  expect(page).to have_content(video.title)
+  click_link '+ My Queue'
+end
+
+  def set_video_order(video, position)
+  within(:xpath, "//tr[contains(.,'#{video.title}')]") do
+    fill_in "queue_items[][position]", with: position
+  end
+end
+
+def expect_video_order(video, position)
+  expect(find(:xpath, "//tr[contains(.,'#{video.title}')]//input[@type='text']").value).to eq(position.to_s)
+end
 end
