@@ -7,10 +7,7 @@ class User < ActiveRecord::Base
   has_many :queue_items, -> { order(position: :asc, updated_at: :desc) }
   has_many :reviews, -> { order("created_at DESC") }
   has_many :following_relationships, class_name: "Relationship", foreign_key: :follower_id 
-  
-  def leading_relationships
-    # run rspec. fix error message for this method.
-  end
+  has_many :leading_relationships, class_name: "Relationship", foreign_key: :leader_id
   
   def queued_video?(video)
     queue_items.map(&:video).include?(video)
