@@ -1,7 +1,7 @@
 class ForgotPasswordsController < ApplicationController
 
   def create
-    user = User.where(email: params[:email]).first
+    user = User.find_by_email(params[:email])
     if user
       AppMailer.send_forgot_password(user).deliver
       redirect_to forgot_password_confirmation_path

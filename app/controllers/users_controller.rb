@@ -8,9 +8,12 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      flash[:success] = "Your account has been created."
+      session[:user_id] = @user.id
       AppMailer.send_welcome_email(@user).deliver
       redirect_to sign_in_path
     else
+      flash[:danger] = "Something went wrong."
       render :new
     end
   end
