@@ -6,8 +6,8 @@ class ForgotPasswordsController < ApplicationController
       AppMailer.send_forgot_password(user).deliver
       redirect_to forgot_password_confirmation_path
     else
-      flash[:error] = params[:email].blank? ? "Email cannot be blank" : "There is no user with that email in this system."
+      flash[:error] = params[:email].blank? ? "Email cannot be blank." : "There is no user with that email address."
       redirect_to forgot_password_path
-  end
+    end
   end
 end

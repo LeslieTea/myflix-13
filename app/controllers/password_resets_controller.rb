@@ -1,4 +1,5 @@
 class PasswordResetsController < ApplicationController
+
   def show
     user = User.where(token: params[:id]).first
     if user
