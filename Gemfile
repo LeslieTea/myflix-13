@@ -18,7 +18,7 @@ group :development do
   gem 'thin'
   gem "better_errors"
   gem "binding_of_caller"
-  gem 'letter_opener', github: 'ryanb/letter_opener'
+  gem 'letter_opener_web', '~> 1.2.0'
 end
 
 group :development, :test do
