@@ -8,6 +8,7 @@ class InvitationsController < ApplicationController
   def create
     invitation = Invitation.create(invitation_params.merge(inviter_id: current_user.id))
     AppMailer.send_invitation_email(invitation).deliver
+    flash[:success] = "You've successfully invited #{invitation.recipient_name}"
     redirect_to new_invitation_path
   end
 

@@ -37,7 +37,12 @@ describe InvitationsController do
         post :create, invitation: { recipient_name: "Joe Smith", recipient_email: "joe@example.com", message: "Hey join Myflix!" }
         expect(response).to redirect_to new_invitation_path
       end
-      it "sets the flash success message"
+      
+      it "sets the flash success message" do
+        set_current_user
+        post :create, invitation: { recipient_name: "Joe Smith", recipient_email: "joe@example.com", message: "Hey join Myflix!" }
+        expect(flash[:success]).to be_present
+      end
     end
     context "with invalid input"
   end
