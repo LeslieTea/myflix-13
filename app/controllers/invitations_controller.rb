@@ -5,10 +5,11 @@ class InvitationsController < ApplicationController
     @invitation = Invitation.new
   end
   
-def create
-  Invitation.create(invitation_params.merge(inviter_id: current_user.id))
-  redirect_to new_invitation_path
-end
+  def create
+    invitation = Invitation.create(invitation_params.merge(inviter_id: current_user.id))
+    AppMailer.send_invitation_email(invitation).deliver
+    redirect_to new_invitation_path
+  end
 
 private
 

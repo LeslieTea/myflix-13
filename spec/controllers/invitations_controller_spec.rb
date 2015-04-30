@@ -25,7 +25,13 @@ describe InvitationsController do
         post :create, invitation: { recipient_name: "Joe Smith", recipient_email: "joe@example.com", message: "Hey join Myflix!" }
         expect(Invitation.count).to eq(1)
       end
-      it "sends an email to the recipient"
+      
+      it "sends an email to the recipient" do
+        set_current_user
+        post :create, invitation: { recipient_name: "Joe Smith", recipient_email: "joe@example.com", message: "Hey join Myflix!" }
+        expect(ActionMailer::Base.deliveries.last.to).to eq(["joe@example.com"])
+      end
+      
       it "redirects to the invitation new page" do
         set_current_user
         post :create, invitation: { recipient_name: "Joe Smith", recipient_email: "joe@example.com", message: "Hey join Myflix!" }
