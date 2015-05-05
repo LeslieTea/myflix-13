@@ -28,4 +28,10 @@ class UsersController < ApplicationController
     params.require(:user).permit(:full_name, :password, :email)
   end
 
+  def new_with_invitation_token
+    invitation_token
+  end
+  
+
+  
 end
