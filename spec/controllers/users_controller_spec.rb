@@ -82,7 +82,10 @@ describe UsersController do
       expect(assigns(:user).email).to eq(invitation.recipient_email)
     end
       
-      it "redirects to expired token page for invalid tokens"
+    it "redirects to expired token page for invalid tokens" do
+      get :new_with_invitation_token, token: 'asdsafda'
+      expect(response).to redirect_to expired_token_path
+    end
       
     
   end
