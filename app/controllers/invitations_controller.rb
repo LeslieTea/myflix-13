@@ -5,6 +5,8 @@ class InvitationsController < ApplicationController
     @invitation = Invitation.new
   end
   
+
+  
   def create
     @invitation = Invitation.create(invitation_params.merge(inviter_id: current_user.id))
     if @invitation.save
@@ -23,5 +25,7 @@ private
 def invitation_params
   params.require(:invitation).permit(:recipient_name, :recipient_email, :message)
 end
+  
+
   
 end

@@ -76,16 +76,5 @@ describe InvitationsController do
         expect(assigns(:invitation)).to be_present
       end
     end
-    
-    describe "GET new_with_invitation token" do
-      it "sets @user with recipients email" do
-        invitation = Fabricate(:invitation)
-        get :new_with_invitation_token, token: invitation.token
-        expect(assigns(:user).email).to eq(invitation.recipient_email)
-      end
-      
-      it "redirects to expired token age for invalid tokens"
-      
-    end
   end
 end
