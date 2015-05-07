@@ -22,6 +22,26 @@ describe UsersController do
         expect(response).to redirect_to sign_in_path
       end
     end
+      
+    context "when new user visits via invite" do
+      let(:joe) { Fabricate(:user) }
+      let(:invitation) { Fabricate(:invitation, inviter_id: joe.id, recipient_email: 'joe@email.com') }
+      before { post :create, user: {email: 'leslie@email.com', password: "password", full_name: 'Leslie'}, invitation_token: invitation.token }
+      
+      it "makes the user follow the inviter" do
+        leslie = User.where(email: 'leslie@example.com')
+        expect(leslie.follows?(joe)).to be_truthy
+      end
+      
+      it "makes the inviter follow the user" do
+        leslie = User.where(email: 'leslie@example.com')
+        expect(joe.follows?(leslie)).to be_truthy
+      end
+      
+      it "Expires the invitation upon acceptance"
+    end
+  
+    
     
     context "with invalid input" do
       before do
@@ -81,13 +101,19 @@ describe UsersController do
       get :new_with_invitation_token, token: invitation.token
       expect(assigns(:user).email).to eq(invitation.recipient_email)
     end
+    
+    it "sets @invitation_token" do
+      invitation = Fabricate(:invitation)
+      get :new_with_invitation_token, token: invitation.token
+      expect(assigns(:invitation_token)).to eq(invitation.token)
+    end
       
     it "redirects to expired token page for invalid tokens" do
       get :new_with_invitation_token, token: 'asdsafda'
       expect(response).to redirect_to expired_token_path
     end
       
-    
+ 
   end
 end
 
