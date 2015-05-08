@@ -30,7 +30,7 @@ describe UsersController do
       
       it "makes the user follow the inviter" do
         leslie = User.where(email: 'leslie@example.com')
-        expect(leslie.follows?(joe)).to be_truthy
+        expect(joe.follows?(leslie)).to be_truthy
       end
       
       it "makes the inviter follow the user" do
