@@ -23,22 +23,25 @@ describe UsersController do
       end
     end
       
-    context "when new user visits via invite" do
-      let(:joe) { Fabricate(:user) }
-      let(:invitation) { Fabricate(:invitation, inviter_id: joe.id, recipient_email: 'joe@email.com') }
-      before { post :create, user: {email: 'leslie@email.com', password: "password", full_name: 'Leslie'}, invitation_token: invitation.token }
-      
+    context "when new user visits via an invite" do
+      let(:laura) { Fabricate(:user) }
+      let(:invitation) { Fabricate(:invitation, inviter_id: laura.id, recipient_email: 'ryan@email.com') }
+
+      before { post :create, user: {email: 'ryan@email.com', password: "password", full_name: 'Ry Dog'}, invitation_token: invitation.token }
+
       it "makes the user follow the inviter" do
-        leslie = User.where(email: 'leslie@example.com')
-        expect(joe.follows?(leslie)).to be_truthy
+        ryan = User.find_by_email('ryan@email.com')
+        expect(ryan.follows?(laura)).to be_truthy
       end
-      
+
       it "makes the inviter follow the user" do
-        leslie = User.where(email: 'leslie@example.com')
-        expect(joe.follows?(leslie)).to be_truthy
+        ryan = User.find_by_email('ryan@email.com')
+        expect(laura.follows?(ryan)).to be_truthy
       end
       
-      it "Expires the invitation upon acceptance"
+      it "Expires the invitation upon acceptance" do
+        expect(Invitation.first.token).to be_nil
+      end
     end
   
     
