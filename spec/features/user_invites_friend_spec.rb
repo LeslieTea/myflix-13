@@ -11,10 +11,8 @@ feature 'User invites friend' do
 
     friend_should_follow(laura)
 
-
-    sign_in(laura)
-    click_link "People"
-    expect(page).to have_content "Royal Ranger"
+    inviter_should_follow_friend(laura)
+    
 
     clear_email
   end
@@ -43,9 +41,15 @@ feature 'User invites friend' do
     click_button "Sign in"
   end
   
-  def friend_should_follow(laura)
+  def friend_should_follow(user)
     click_link "People"
-    expect(page).to have_content laura.full_name
+    expect(page).to have_content user.full_name
     sign_out
+  end
+  
+  def inviter_should_follow_friend(inviter)
+    sign_in(inviter)
+    click_link "People"
+    expect(page).to have_content "Royal Ranger"
   end
 end
